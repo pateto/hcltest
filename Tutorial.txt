@@ -1,0 +1,3 @@
+http://www.tangowithdjango.com/book17/chapters/templates_static.html
+
+5.2
