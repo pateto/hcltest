@@ -1,3 +1,1 @@
-http://www.tangowithdjango.com/book17/chapters/templates_static.html
-
-5.3
+http://www.tangowithdjango.com/book17/chapters/models_templates.html
