@@ -13,15 +13,24 @@
 		{% if categories %}
 			<ul>
 				{% for category in categories %}
-				<li>{{ category.name }}</li>
+				<li><a href="/rango/category/{{ category.slug }}">{{ category.name }}</a></li>
 				{% endfor %}
 			</ul>
 		{% else %}
 			<strong>There are no categories present.</strong>
 		{% endif %}
+        
+        {% if most_viewed %}        
+        <h2>Most viewed pages</h2>
+            <ul>
+				{% for page in most_viewed %}
+				<li>{{ page }}</li>
+				{% endfor %}
+			</ul>
+        {% endif %}
 		
-        <a href='/rango/about/'>About</a><br />
-		
+        <a href='/rango/about/'>About</a><br />       
+        		
     </body>
 
 </html>
