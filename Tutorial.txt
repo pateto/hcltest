@@ -1,2 +1,1 @@
-http://www.tangowithdjango.com/book17/chapters/forms.html
-8.2.3
+http://www.tangowithdjango.com/book17/chapters/login.html
