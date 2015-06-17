@@ -1,10 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from rango.models import Category, Page
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+
 #import pdb
+#pdb.set_trace()
 
 def index(request):
 	# Query the database for a list of ALL categories currently stored.
@@ -57,7 +60,8 @@ def category(request, category_name_slug):
         
     # Go render the response and return it to the client.
     return render(request, 'rango/category.html', context_dict)
-	
+
+@login_required
 def add_category(request):
 	# A HTTP POST?
 	if request.method == 'POST':
@@ -89,8 +93,7 @@ def add_page(request, category_name_slug):
 	if request.method == 'POST':
 		form = PageForm(request.POST)
 		if form.is_valid():
-			if cat:
-				#pdb.set_trace()
+			if cat:				
 				page = form.save(commit=False)
 				page.category = cat
 				page.views = 0
@@ -161,4 +164,55 @@ def register(request):
 		profile_form = UserProfileForm()
 	
 	# Render the template depending on the context.
-	return render(request, 'rango/register.html', {'user_form': user_form}, 'profile_form': profile_form, 'registered': registered)
+	return render(request, 'rango/register.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+
+def user_login(request):
+	
+	# If the request is a HTTP POST, try to pull out the relevant information.
+	if request.method == 'POST':
+		# Gather the username and password provided by the user.
+		# This information is obtained from the login form.
+			# We use request.POST.get('<variable>') as opposed to request.POST['<variable>'],
+			# because the request.POST.get('<variable>') returns None, if the value does not exist,
+			#  while the request.POST['<variable>'] will raise key error exception
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		
+		# Use Django's machinery to attempt to see if the username/password
+		# combination is valid - a User object is returned if it is.
+		user = authenticate(username=username, password=password)
+		
+		# If we have a User object, the details are correct.
+		# If None (Python's way of representing the absence of a value), no user
+		# with matching credentials was found.
+		if user:
+			# Is the account active? It could have been disabled.
+			if user.is_active:
+				# If the account is valid and active, we can log the user in.
+				# We'll send the user back to the homepage.
+				login(request, user)
+				return HttpResponseRedirect('/rango/')
+			else:
+				# An inactive account was used - no logging in!
+				return HttpResponse("Your Rango account is disabled.")
+		else:
+			# Bad login details were provided. So we can't log the user in.
+			print "Invalid login details: {0}, {1}".format(username, password)
+			return render(request, 'rango/login_error.html')
+			#return HttpResponse("Invalid login details supplied.")
+	else:
+		# No context variables to pass to the template system, hence the
+		# blank dictionary object...
+		return render(request, 'rango/login.html', {})
+
+@login_required
+def restricted(request):
+	return HttpResponse("Since you are logged in, you can see this text!")
+
+@login_required
+def user_logout(request):
+	# Since we know the user is logged in, we can now just log them out.
+	logout(request)
+	
+	# Take the user back to the homepage.
+	return HttpResponseRedirect('/rango/')
