@@ -1,1 +1,1 @@
-http://www.tangowithdjango.com/book17/chapters/templates.html
+http://www.tangowithdjango.com/book17/chapters/cookie.html

@@ -1,17 +1,13 @@
-<!DOCTYPE html>
+{% extends 'rango/base.html' %}
 
-<html>
+{% load staticfiles %}
 
-    <head>
-		<!-- Is anyone getting tired of repeatedly entering the header over and over?? -->
-        <title>Rango</title>
-    </head>
+{% block title %}Error{% endblock %}
 
-    <body>
+{% block body_block %}
 	
-        Invalid login details supplied!<br>
-		
-		<a href="/rango/login/">Login</a><br>
+	Invalid login details supplied!<br>
+	
+	<a href="/rango/login.html">Login</a>	
 
-    </body>
-</html>
+{% endblock %}

@@ -1,18 +1,19 @@
-<!DOCTYPE html>
+{% extends 'rango/base.html' %}
 
-{% load static %}
+{% load staticfiles %}
 
-<html>
+{% block title %}about{% endblock %}
 
-    <head>
-        <title>Rango</title>
-    </head>
+{% block body_block %}
 
-    <body>	
-        Rango says here is the about page 
-		<br>
-		<a href='/rango/'>back</a>        
-		<img src='{% static "images/michael-jackson.jpg" %}' alt='Forever MJ' />
-    </body>
+	Rango says here is the about page 
+	
+	<div>
+	<img src='{% static "images/michael-jackson.jpg" %}' alt='Forever MJ' />
+	</div>
+	
+	<br>	
+	<a href="/rango/">Back</a>
+	<br>
 
-</html>
+{% endblock %}
