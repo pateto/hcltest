@@ -5,3 +5,13 @@ from django.contrib.auth.models import User
 user = User.objects.get(username='p2')
 
 user.delete()
+
+
+FIREWALL
+
+-- Check firewall zones
+# firewall-cmd --get-active-zones
+
+-- add port 80
+# firewall-cmd --zone=public --add-port=80/tcp --permanent
+# firewall-cmd --reload
