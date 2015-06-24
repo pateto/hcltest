@@ -4,12 +4,16 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 
-#import pdb
+import pdb
 #pdb.set_trace()
 
 def index(request):
+
+	#request.session.set_test_cookie()
+	
 	# Query the database for a list of ALL categories currently stored.
     # Order the categories by no. likes in descending order.
     # Retrieve the top 5 only - or all if less than 5.
@@ -24,7 +28,47 @@ def index(request):
 	context_dict['most_viewed'] = most_viewed
 	
 	# Render the response and send it back!
-	return render(request, 'rango/index.html', context_dict)
+	#return render(request, 'rango/index.html', context_dict)
+	
+	# Get the number of visits to the site.
+	# We use the COOKIES.get() function to obtain the visits cookie.
+	# If the cookie exists, the value returned is casted to an integer.
+	# If the cookie doesn't exist, we default to zero and cast that.
+	#pdb.set_trace()
+	visits = int(request.COOKIES.get('visits', '1'))
+	
+	reset_last_visit_time = False
+	context_dict['visits'] = visits
+	response = render(request, 'rango/index.html', context_dict)
+	
+	# Does the cookie last_visit exist?
+	if 'last_visit' in request.COOKIES:
+		# Yes it does! Get the cookie's value.
+		last_visit = request.COOKIES['last_visit']
+		# Cast the value to a Python date/time object.
+		last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+		
+		
+		# If it's been more than a day since the last visit.
+		if(datetime.now() - last_visit_time).days > 0:
+			visits = visits + 1
+			# ...and flag the cookie last visit needs to be updated
+			reset_last_visit_time = True
+	else:
+		# Cookie last_visit doesn't exist, so flag that it should be set.
+		reset_last_visit_time = True
+		
+		context_dict['visits'] = visits
+		
+		# Obtain our Response object early so we can add cookie information.
+		response = render(request, 'rango/index.html', context_dict)
+		
+	if reset_last_visit_time:
+		response.set_cookie('last_visit', datetime.now())
+		response.set_cookie('visits', visits)
+	
+	# Return response back to the user, updating any cookies that need changed.
+	return response
 	
 def about(request):
 	return render(request, 'rango/about.html', {})	
@@ -111,6 +155,10 @@ def add_page(request, category_name_slug):
 		return render(request, 'rango/add_page.html', context_dict)
 
 def register(request):
+
+	#if request.session.test_cookie_worked():
+	#	print ">>>> TEST COOKIE WORKED!"
+	#	request.session.delete_test_cookie()
 
 	# A boolean value for telling the template whether the registration was successful.
 	# Set to False initially. Code changes value to True when registration succeeds.
