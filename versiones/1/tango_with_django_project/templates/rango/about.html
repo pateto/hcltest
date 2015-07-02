@@ -1,0 +1,21 @@
+{% extends 'rango/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}about{% endblock %}
+
+{% block body_block %}
+
+	Rango says here is the about page 
+	
+	<div>
+	<img src='{% static "images/michael-jackson.jpg" %}' alt='Forever MJ' />
+	</div>
+	
+	# Visits: {{ visits }}
+	
+	<br>	
+	<a href="/rango/">Back</a>
+	<br>
+
+{% endblock %}

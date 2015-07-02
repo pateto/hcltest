@@ -1,1 +1,1 @@
-http://www.tangowithdjango.com/book17/chapters/login_redux.html
+http://www.tangowithdjango.com/book17/chapters/bootstrap.html
