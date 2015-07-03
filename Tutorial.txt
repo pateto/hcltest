@@ -1,1 +1,1 @@
-http://www.tangowithdjango.com/book17/chapters/bootstrap.html
+http://www.tangowithdjango.com/book17/chapters/template_tags.html

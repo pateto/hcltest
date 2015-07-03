@@ -6,11 +6,13 @@
 
 {% block body_block %}
 
-	Rango says here is the about page 
+	<div class="page-header">
+		<h1>About</h1>
+	</div>
 	
 	<div>
-	<img src='{% static "images/michael-jackson.jpg" %}' alt='Forever MJ' />
-	</div>
+		<img src='{% static "images/michael-jackson.jpg" %}' alt='Forever MJ' />
+	</div>	
 	
 	# Visits: {{ visits }}
 	
