@@ -7,7 +7,7 @@ user = User.objects.get(username='p2')
 user.delete()
 
 
-FIREWALL
+FIREwALL
 
 -- Check firewall zones
 # firewall-cmd --get-active-zones
@@ -15,3 +15,6 @@ FIREWALL
 -- add port 80
 # firewall-cmd --zone=public --add-port=80/tcp --permanent
 # firewall-cmd --reload
+
+
+b/9OlID2XD9n7bIGHdM/98jbKetxfVhYDS2Vt5cIY

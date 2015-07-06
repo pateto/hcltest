@@ -1,1 +1,3 @@
-http://www.tangowithdjango.com/book17/chapters/template_tags.html
+http://www.tangowithdjango.com/book17/chapters/bing_search.html
+
+15.4. Exercises
