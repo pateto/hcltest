@@ -8,7 +8,7 @@ from datetime import datetime
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from rango.bing_search import run_query
 
-#import pdb
+import pdb
 #pdb.set_trace()
 
 def index(request):
@@ -148,3 +148,14 @@ def search(request):
 			# Run our Bing function to get the results list!
 			result_list = run_query(query)
 	return render(request, 'rango/search.html', {'result_list': result_list})
+
+def track_url(request):	
+	if request.method == 'GET':
+		if 'page_id' in request.GET:
+			page_id = request.GET['page_id']
+			page = Page.objects.get(id=page_id)			
+			page.views += 1
+			page.save()
+			return HttpResponseRedirect(page.url)
+	else:
+		return render(request, 'rango/index.html', {})
