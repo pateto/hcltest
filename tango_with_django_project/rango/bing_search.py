@@ -4,11 +4,11 @@ import pdb
 
 # BING_API_KEY
 
-BING_API_KEY = 'b/9OlID2XD9n7bIGHdM/98jbKetxfVhYDS2Vt5cIY'
+BING_API_KEY = 'wAb/9OlID2XD9n7bIGHdM/98jbKetxfVhYDS2Vt5cIY'
 
 def run_query(search_terms):
 
-	pdb.set_trace()
+	#pdb.set_trace()
 
 	# Specify the base
 	root_url = 'https://api.datamarket.azure.com/Bing/Search/v1/'
