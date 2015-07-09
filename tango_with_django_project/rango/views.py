@@ -158,3 +158,31 @@ def track_url(request):
 			return HttpResponseRedirect(page.url)
 	else:
 		return render(request, 'rango/index.html', {})
+		
+@login_required
+def add_profile(request):
+	# A HTTP POST?
+	if request.method == 'POST':
+		form = UserProfileForm(request.POST)
+	
+		# Have we been provided with a valid form?
+		if form.is_valid():
+			userProfile = form.save(commit=False)
+			userProfile.user_id = request.user.id
+			
+			if 'picture' in request.FILES:
+				userProfile.picture = request.FILES['picture']
+				
+			# Save the new category to the database.
+			form.save(commit=True)
+		
+		# Now call the index() viewed.
+		# The user will be shown the homepage
+		return index(request)
+	else:
+		# If the request was not a POST, display the form to enter details.
+		form = UserProfileForm()
+		
+	# Bad form (or form details), no form supplied...
+	# Render the form with error messages (if any).
+	return render(request, 'rango/profile_registration.html',{'form':form})

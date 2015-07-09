@@ -1,0 +1,25 @@
+{% extends 'rango/base.html' %}
+
+{% load bootstrap_toolkit %}
+
+{% load staticfiles %}
+
+{% block title %}Add Profile{% endblock %}
+
+{% block body_block %}	
+	
+	<form id='profile_form' method='post' enctype="multipart/form-data" action="{% url 'rango:add_profile' %}">
+
+		<h2 class="form-signin-heading">Add a Profile for {{ user.username }}</a></h2>		
+
+		{% csrf_token %}
+
+		{{ form|as_bootstrap }}
+
+		<br/>
+
+		<button class="btn btn-primary" type="submit" name="submit">Create Profile</button>
+
+	</form>
+
+{% endblock %}
