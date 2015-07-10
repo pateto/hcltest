@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from rango.models import Category, Page
+from django.shortcuts import render, render_to_response
+from rango.models import Category, Page, UserProfile
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from rango.bing_search import run_query
+from django.template.context import RequestContext
 
 import pdb
 #pdb.set_trace()
@@ -186,3 +187,15 @@ def add_profile(request):
 	# Bad form (or form details), no form supplied...
 	# Render the form with error messages (if any).
 	return render(request, 'rango/profile_registration.html',{'form':form})
+
+@login_required
+def profile(request):
+	context_dict = {}
+	try:
+		userProfile = UserProfile.objects.get(user = request.user)
+		context_dict['userProfile'] = userProfile		
+	except Exception:
+		pass
+		
+	return render_to_response('rango/profile.html', context_instance = RequestContext(request, context_dict))
+	#return render(request, 'rango/profile.html', context_dict)

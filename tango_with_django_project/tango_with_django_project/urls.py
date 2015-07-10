@@ -4,6 +4,9 @@ from rango import views
 from django.contrib import admin
 from registration.backends.simple.views import RegistrationView
 
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 # Create a new class that redirects the user to the index page, if successful at logging
 class MyRegistrationView(RegistrationView):
 	def get_success_url(self, request, user):
@@ -18,4 +21,6 @@ urlpatterns = patterns('',
 	)
 
 if settings.DEBUG:
-	urlpatterns += patterns('django.views.static',(r'^media/(?P<path>.*)','serve',{'document_root': settings.MEDIA_ROOT}), )
+	urlpatterns += patterns('django.views.static',(r'^media/(?P<path>.*)','serve',{'document_root': settings.MEDIA_ROOT}), )	
+	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+	urlpatterns += staticfiles_urlpatterns()
