@@ -1,1 +1,1 @@
-http://www.tangowithdjango.com/book17/chapters/jquery.html
+http://www.tangowithdjango.com/book17/chapters/ajax.html
