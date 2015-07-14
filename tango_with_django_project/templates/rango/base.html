@@ -18,6 +18,7 @@
 	
 	<script src="{% static 'js/jquery-2.1.4.js' %}"></script>
 	<script src="{% static 'js/rango-jquery.js' %}"></script>
+	<script src="{% static 'js/rango-ajax.js' %}"></script>
     
   </head>
 
@@ -53,18 +54,31 @@
 	</div> 
 
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-sm-3 col-md-2 sidebar">
-			{% block side_block %}
-			{% get_category_list category %}
-			{% endblock %}
-			</div>
-			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<div>
-				{% block body_block %}{% endblock %}
+		<div class="row-fluid">
+			<div class="span3">
+				<div class="well sidebar-nav">
+					<ul class="nav nav-list">
+						{% block navbar %}
+						{% endblock %}
+					</ul>
+					<ul class="nav nav-list">
+						<li class="nav-header">Find a Category</li>
+						<form>
+						<label></label>
+						<li><input  class="search-query span10" type="text" name="suggestion" value="" id="suggestion" /></li>
+						</form>
+					</ul>
+					
+					<div id="cats">						
+					</div>
+					
 				</div>
 			</div>
-		</div>
+			<div class="span9">
+				{% block body_block %}
+				{% endblock %}
+			</div>        
+		</div>	
 	</div>
 
 	<!-- Bootstrap core JavaScript

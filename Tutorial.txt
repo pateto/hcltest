@@ -1,1 +1,3 @@
 http://www.tangowithdjango.com/book17/chapters/ajax.html
+
+19.4. Exercises
