@@ -8,6 +8,7 @@ from datetime import datetime
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from rango.bing_search import run_query
 from django.template.context import RequestContext
+from django.utils import timezone
 
 import pdb
 #pdb.set_trace()
@@ -138,13 +139,15 @@ def add_page(request, category_name_slug):
 	except Category.DoesNotExist:
 		cat = None
 	
-	if request.method == 'POST':
+	if request.method == 'POST':		
 		form = PageForm(request.POST)
 		if form.is_valid():
 			if cat:				
 				page = form.save(commit=False)
 				page.category = cat
 				page.views = 0
+				page.first_visit = timezone.now()
+				page.last_visit = timezone.now()
 				page.save()
 				# probably better to use a redirect here.
 				return HttpResponseRedirect(reverse('rango:category', kwargs={'category_name_slug': category_name_slug}))
@@ -163,11 +166,12 @@ def restricted(request):
 	return render(request, 'rango/restricted.html', {})
 
 def track_url(request):	
-	if request.method == 'GET':
+	if request.method == 'GET':		
 		if 'page_id' in request.GET:
 			page_id = request.GET['page_id']
 			page = Page.objects.get(id=page_id)			
-			page.views += 1
+			page.views += 1			
+			page.last_visit = timezone.now()
 			page.save()
 			return HttpResponseRedirect(page.url)
 	else:
@@ -244,13 +248,16 @@ def auto_add_page(request):
 	url = None
 	title = None
 	context_dict = {}
-	if request.method == 'GET':
+	if request.method == 'GET':		
 		cat_id = request.GET['category_id']
 		title = request.GET['title']
 		url = request.GET['url']
 		if cat_id:
 			category = Category.objects.get(id=int(cat_id))
-			p = Page.objects.get_or_create(category=category, title=title, url=url)
+			p = Page.objects.get_or_create(category=category, title=title, url=url)[0]
+			p.first_visit = timezone.now()
+			p.last_visit = timezone.now()
+			p.save()
 			pages = Page.objects.filter(category=category).order_by('-views')
 			# Add our results to the template context under name pages.
 			context_dict['pages'] = pages
