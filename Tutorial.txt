@@ -1,3 +1,5 @@
 http://www.tangowithdjango.com/book17/chapters/deploy.html
 
-https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-centos-7
+21.4.1. Setting Up the Database
+
+https://docs.djangoproject.com/en/1.8/howto/deployment/wsgi/modwsgi/
