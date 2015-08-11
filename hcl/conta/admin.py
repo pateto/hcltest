@@ -1,3 +1,4 @@
 from django.contrib import admin
+from conta.models import NHva01
 
-# Register your models here.
+admin.site.register(NHva01)
