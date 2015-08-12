@@ -1,0 +1,19 @@
+{% for n in nhva01 %}
+    {{ n.id }}<br />    
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if nhva01.has_previous %}
+            <a href="?p={{ nhva01.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ nhva01.number }} of {{ nhva01.paginator.num_pages }}.
+        </span>
+
+        {% if nhva01.has_next %}
+            <a href="?p={{ nhva01.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
