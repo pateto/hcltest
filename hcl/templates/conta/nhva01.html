@@ -1,4 +1,6 @@
-<form action="/nhva01/" method="post">
+{{ form.instance.id }}
+
+<form method="post" action="{% url 'conta:nhva01_detail' form.instance.id %}">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Guardar" />

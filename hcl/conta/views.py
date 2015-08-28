@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from conta.models import NHva01
 from .forms import NHva01Form
@@ -11,22 +11,20 @@ def index(request):
 
 def nhva01_detail(request, nhva01_id):
 	
-	#pdb.set_trace()
-	# if this is a POST request we need to process the form data
+	nhva01 = get_object_or_404(NHva01, pk=nhva01_id)
+	
+	# Verificar si el proceso es POST
 	if request.method == 'POST':
-		# create a form instance and populate it with data from the request:
-		form = NHva01Form(request.POST)
-		# check whether it's valid:
+		# crear una instancia de tipo form
+		form = NHva01Form(request.POST, instance = nhva01)
+		# verificar su validez
 		if form.is_valid():
-			# process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-			print 'is valid'
+			# Procesar los datos			
+			form.save()
 			
-	# if a GET (or any other method) we'll create a blank form
+	# Si es un metodo 'GET' o algun otro, crear un formulario vacio
 	else:
-		nhva01 = NHva01.objects.get(pk=nhva01_id)
-		form = NHva01Form(instance=nhva01)
+		form = NHva01Form(instance = nhva01)
 		
 	return render(request, 'conta/nhva01.html', {'form': form})
 
@@ -43,4 +41,4 @@ def nhva01(request):
 	except EmptyPage:
 		nhva01 = paginator.page(paginator.num_pages)
 	
-	return render_to_response('conta/list.html', {'nhva01': nhva01})
+	return render(request, 'conta/list.html', {'nhva01': nhva01})
