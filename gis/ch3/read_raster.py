@@ -5,6 +5,7 @@ import pdb
 pdb.set_trace()
 dataset = gdal.Open("1.tif")
 band = dataset.GetRasterBand(1)
+#band.ReadAsArray()
 
 fmt = "<" + ("h" * band.XSize)
 totHeight = 0
